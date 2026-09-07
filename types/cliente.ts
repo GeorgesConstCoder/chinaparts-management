@@ -3,4 +3,6 @@ export type Cliente = {
   nombre: string;
   telefono: string;
   email?: string;
+  activo: boolean;
+  fechaCreacion: string;
 };
