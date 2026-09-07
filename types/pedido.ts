@@ -6,17 +6,24 @@ export type EstadoPedido =
     | "cancelado";
 
 export type DetallePedido = {
+    id: string;
+    pedidoId: string;
+    productoId: string;
+    cantidad: number;
+};
+
+export type NuevoDetallePedido = {
     productoId: string;
     cantidad: number;
 };
 
 export type Pedido = {
     id: string;
-    numero: string;
+    numero: number;
     clienteId: string;
-    detalles: DetallePedido[];
     estado: EstadoPedido;
     fechaCreacion: string;
     fechaRecogidaPrevista: string;
-    observaciones?: string;
+    observaciones: string;
+    detalles: DetallePedido[];
 };

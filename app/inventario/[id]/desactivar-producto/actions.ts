@@ -11,6 +11,9 @@ export async function desactivarProducto(
         formData.get("productoId") ?? ""
     );
 
+    const rutaDesactivacion =
+        `/inventario/${productoId}/desactivar-producto`;
+
     if (!productoId) {
         redirect("/inventario");
     }
@@ -25,9 +28,36 @@ export async function desactivarProducto(
         redirect("/login");
     }
 
+    // Consultamos el inventario antes de desactivar.
+    const {
+        data: inventario,
+        error: errorInventario,
+    } = await supabase
+        .from("inventario")
+        .select("cantidad_reservada")
+        .eq("producto_id", productoId)
+        .maybeSingle();
+
+    if (errorInventario || !inventario) {
+        redirect(
+            `${rutaDesactivacion}?error=${encodeURIComponent(
+                "No se pudo consultar el inventario del producto"
+            )}`
+        );
+    }
+
+    // Bloqueamos la desactivación si existen reservas.
+    if (inventario.cantidad_reservada > 0) {
+        redirect(
+            `${rutaDesactivacion}?error=${encodeURIComponent(
+                `No puedes desactivar este producto porque tiene ${inventario.cantidad_reservada} unidades reservadas`
+            )}`
+        );
+    }
+
     const {
         data: productoActualizado,
-        error,
+        error: errorProducto,
     } = await supabase
         .from("productos")
         .update({
@@ -38,9 +68,9 @@ export async function desactivarProducto(
         .select("id")
         .maybeSingle();
 
-    if (error || !productoActualizado) {
+    if (errorProducto || !productoActualizado) {
         redirect(
-            `/inventario/${productoId}/desactivar-producto?error=${encodeURIComponent(
+            `${rutaDesactivacion}?error=${encodeURIComponent(
                 "No se pudo desactivar el producto"
             )}`
         );
@@ -48,6 +78,9 @@ export async function desactivarProducto(
 
     revalidatePath("/inventario");
     revalidatePath(`/inventario/${productoId}`);
+    revalidatePath(
+        "/inventario/productos-inactivos"
+    );
 
     redirect("/inventario");
 }

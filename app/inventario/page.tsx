@@ -104,6 +104,26 @@ export default async function InventarioPage() {
 
                     <div className="flex flex-wrap items-center gap-3">
                         <Link
+                            href="/pedidos"
+                            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 text-sm font-semibold text-slate-300 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white"
+                        >
+                            <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 5h6M9 9h6M9 13h4M5 3h14a2 2 0 012 2v16H3V5a2 2 0 012-2z"
+                                />
+                            </svg>
+
+                            <span>Pedidos</span>
+                        </Link>
+                        <Link
                             href="/clientes"
                             className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 text-sm font-semibold text-slate-300 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white"
                         >
