@@ -36,6 +36,10 @@ export default async function ProductoPage({
         notFound();
     }
 
+    if (!producto.activo) {
+        redirect("/inventario");
+    }
+
     const cantidadDisponible = registro
         ? obtenerCantidadDisponible(registro)
         : 0;
@@ -55,12 +59,21 @@ export default async function ProductoPage({
                         ← Volver al inventario
                     </Link>
 
-                    <Link
-                        href={`/inventario/${producto.id}/editar`}
-                        className="rounded-xl border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-400 transition hover:bg-amber-400 hover:text-slate-950"
-                    >
-                        Editar producto
-                    </Link>
+                    <div className="flex flex-wrap gap-3">
+                        <Link
+                            href={`/inventario/${producto.id}/editar`}
+                            className="rounded-xl border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-400 transition hover:bg-amber-400 hover:text-slate-950"
+                        >
+                            Editar producto
+                        </Link>
+
+                        <Link
+                            href={`/inventario/${producto.id}/desactivar-producto`}
+                            className="rounded-xl border border-red-500 px-4 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500 hover:text-white"
+                        >
+                            Desactivar producto
+                        </Link>
+                    </div>
                 </div>
 
                 <article className="mt-6 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">

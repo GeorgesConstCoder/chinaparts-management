@@ -1,4 +1,6 @@
-export type TipoProducto = "maquinaria" | "repuesto";
+export type TipoProducto =
+  | "maquinaria"
+  | "repuesto";
 
 export type Producto = {
   id: string;
@@ -7,4 +9,5 @@ export type Producto = {
   descripcion: string;
   marca: string;
   tipo: TipoProducto;
+  activo: boolean;
 };
